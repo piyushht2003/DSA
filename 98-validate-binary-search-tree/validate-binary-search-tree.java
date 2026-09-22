@@ -1,8 +1,8 @@
-class Twin {
-    int max;
-    int min;
+class Pair {
+    long max;
+    long min;
 
-    Twin(int max, int min) {
+    Pair(long max, long min) {
         this.max = max;
         this.min = min;
     }
@@ -17,36 +17,18 @@ class Solution {
         return flag;
     }
 
-    Twin maxMin(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
+    Pair maxMin(TreeNode root) {
+        if (root == null) return new Pair(Long.MIN_VALUE, Long.MAX_VALUE);
 
-        Twin left = maxMin(root.left);
-        Twin right = maxMin(root.right);
+        Pair left = maxMin(root.left);
+        Pair right = maxMin(root.right);
 
-        if (left != null && root.val <= left.max) {
-            flag = false;
-        }
+        long max = Math.max(root.val, Math.max(left.max, right.max));
+        long min = Math.min(root.val, Math.min(left.min, right.min));
 
-        if (right != null && root.val >= right.min) {
-            flag = false;
-        }
+        if (left.max >= root.val || right.min <= root.val) flag = false;
 
-        int max = root.val;
-        int min = root.val;
-
-        if (left != null) {
-            max = Math.max(max, left.max);
-            min = Math.min(min, left.min);
-        }
-
-        if (right != null) {
-            max = Math.max(max, right.max);
-            min = Math.min(min, right.min);
-        }
-
-        return new Twin(max, min);
+        return new Pair(max, min);
     }
 }
 // class Solution {
