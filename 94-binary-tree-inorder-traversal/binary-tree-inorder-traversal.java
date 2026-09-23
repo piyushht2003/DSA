@@ -1,43 +1,31 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        ArrayList<Integer> ans = new ArrayList<>();
-        Stack<TreeNode> st = new Stack<>();
+       ArrayList<Integer> ans = new ArrayList<>();
         TreeNode curr = root;
-        while(st.size()>0 || curr!=null){
-            if(curr!=null){
-                if(curr.left!=null){
-                    st.push(curr);
+        while(curr!=null){
+            if(curr.left!=null){
+                TreeNode p = curr.left;
+                while(p.right!=null && p.right!=curr) p = p.right;
+                if(p.right==null){
+                    p.right = curr;
                     curr = curr.left;
                 }
                 else{
+                    p.right = null;
                     ans.add(curr.val);
                     curr = curr.right;
                 }
             }
             else{
-                TreeNode top = st.pop();
-                ans.add(top.val);
-                curr = top.right;
+                ans.add(curr.val);
+                curr = curr.right;
             }
         }
-        return ans;
+       return ans; 
     }
 }
+
+// // -> RECURSION
 // class Solution {
 //     public List<Integer> inorderTraversal(TreeNode root) {
 //        ArrayList<Integer> ans = new ArrayList<>();
@@ -50,4 +38,30 @@ class Solution {
 //        ans.add(root.val);
 //        dfs(root.right, ans);
 //     }
+// }
+// class Solution { // -> Iterative 
+//     public List<Integer> inorderTraversal(TreeNode root) {
+//         ArrayList<Integer> ans = new ArrayList<>();
+//         Stack<TreeNode> st = new Stack<>();
+//         TreeNode curr = root;
+//         while(st.size()>0 || curr!=null){
+//             if(curr!=null){
+//                 if(curr.left!=null){
+//                     st.push(curr);
+//                     curr = curr.left;
+//                 }
+//                 else{
+//                     ans.add(curr.val);
+//                     curr = curr.right;
+//                 }
+//             }
+//             else{
+//                 TreeNode top = st.pop();
+//                 ans.add(top.val);
+//                 curr = top.right;
+//             }
+//         }
+//         return ans;
+//     }
+// }
 // }
